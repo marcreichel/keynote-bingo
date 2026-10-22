@@ -14,7 +14,7 @@ const FEEDS = [
 ];
 const MEMES = [
   'One more thing…',
-  'Tim Cook: "Good morning!"',
+  'Opens with "Good morning!"',
   'Drone shot of Apple Park',
   '"Our best ___ ever"',
   '"We think you\'re going to love it"',
