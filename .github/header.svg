@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title>Keynote Bingo</title>
+  <defs>
+    <radialGradient id="glowBlue"><stop offset="0" stop-color="#0a84ff" stop-opacity=".32"/><stop offset="1" stop-color="#0a84ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowPurple"><stop offset="0" stop-color="#bf5af2" stop-opacity=".3"/><stop offset="1" stop-color="#bf5af2" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowPink"><stop offset="0" stop-color="#ff375f" stop-opacity=".14"/><stop offset="1" stop-color="#ff375f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="title" x1="80" x2="340" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a84ff"/><stop offset=".5" stop-color="#bf5af2"/><stop offset="1" stop-color="#ff375f"/>
+    </linearGradient>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff" fill-opacity=".07"/></pattern>
+    <linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset=".7" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <mask id="dotsMask"><rect width="1280" height="400" fill="url(#fade)"/></mask>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#000" flood-opacity=".6"/></filter>
+    <filter id="blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+    <clipPath id="frame"><rect width="1280" height="400" rx="24"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+  <rect width="1280" height="400" fill="#0b0b0f"/>
+  <ellipse cx="100" cy="0" rx="600" ry="380" fill="url(#glowBlue)"/>
+  <ellipse cx="1180" cy="400" rx="520" ry="360" fill="url(#glowPurple)"/>
+  <ellipse cx="960" cy="40" rx="400" ry="300" fill="url(#glowPink)"/>
+  <rect width="1280" height="400" fill="url(#dots)" mask="url(#dotsMask)"/>
+
+  <!-- copy -->
+  <rect x="80" y="58" width="254" height="30" rx="15" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".1"/>
+  <circle cx="103" cy="73" r="4" fill="#ff375f"/>
+  <circle cx="103" cy="73" r="8" fill="#ff375f" fill-opacity=".25"/>
+  <text x="117" y="77.5" font-size="12.5" font-weight="600" letter-spacing="1.1" fill="#c7c7cc">LIVE DURING THE KEYNOTE</text>
+
+  <text x="76" y="182" font-size="92" font-weight="800" letter-spacing="-4" fill="#f2f2f7">Keynote</text>
+  <text x="76" y="272" font-size="92" font-weight="800" letter-spacing="-4" fill="url(#title)">Bingo</text>
+
+  <text x="80" y="322" font-size="19" fill="#a1a1aa" letter-spacing="-0.2">Rumor-powered multiplayer bingo for Apple events.</text>
+  <text x="80" y="350" font-size="19" fill="#a1a1aa" letter-spacing="-0.2"><tspan fill="#f2f2f7" font-weight="600">Create a room, share the code,</tspan> shout at the livestream.</text>
+
+  <!-- card -->
+  <g transform="translate(850 20) rotate(4 185 185)">
+    <rect width="370" height="370" rx="22" fill="#16161d" fill-opacity=".92" stroke="#2a2a35" filter="url(#shadow)"/>
+    <rect x="12" y="150" width="346" height="70" rx="14" fill="none" stroke="#ffd60a" stroke-width="5" stroke-opacity=".7" filter="url(#blur)"/>
+    <rect x="16" y="16" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="47" y="44.575">One more</tspan><tspan x="47" y="56.075">thing…</tspan></text>
+    <rect x="85" y="16" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#30d158" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="116" y="44.575">M5</tspan><tspan x="116" y="56.075">MacBook</tspan></text>
+    <rect x="154" y="16" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="185" y="44.575">Price</tspan><tspan x="185" y="56.075">goes up</tspan></text>
+    <rect x="223" y="16" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="254" y="50.325">Titanium</tspan></text>
+    <rect x="292" y="16" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="323" y="44.575">New</tspan><tspan x="323" y="56.075">Vision Pro</tspan></text>
+    <rect x="16" y="85" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="47" y="113.575">iOS 27</tspan><tspan x="47" y="125.075">redesign</tspan></text>
+    <rect x="85" y="85" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="116" y="113.575">Apple Park</tspan><tspan x="116" y="125.075">drone shot</tspan></text>
+    <rect x="154" y="85" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#30d158" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="185" y="119.325">“Magical”</tspan></text>
+    <rect x="223" y="85" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="254" y="113.575">Foldable</tspan><tspan x="254" y="125.075">iPhone</tspan></text>
+    <rect x="292" y="85" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="323" y="113.575">Craig’s</tspan><tspan x="323" y="125.075">hair</tspan></text>
+    <rect x="16" y="154" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#ffd60a" stroke-width="2"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="47" y="182.575">Siri AI</tspan><tspan x="47" y="194.075">overhaul</tspan></text>
+    <rect x="85" y="154" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#ffd60a" stroke-width="2"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="116" y="182.575">“Good</tspan><tspan x="116" y="194.075">morning!”</tspan></text>
+    <rect x="154" y="154" width="62" height="62" rx="11" fill="#0a84ff" stroke="#0a84ff" stroke-width="1"/>
+    <text font-size="11" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="0.7"><tspan x="185" y="188.85">FREE</tspan></text>
+    <rect x="223" y="154" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#ffd60a" stroke-width="2"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="254" y="182.575">“Available</tspan><tspan x="254" y="194.075">today”</tspan></text>
+    <rect x="292" y="154" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#ffd60a" stroke-width="2"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="323" y="182.575">“Our best</tspan><tspan x="323" y="194.075">ever”</tspan></text>
+    <rect x="16" y="223" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="47" y="251.575">Shade of</tspan><tspan x="47" y="263.075">blue</tspan></text>
+    <rect x="85" y="223" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="116" y="251.575">Carbon</tspan><tspan x="116" y="263.075">neutral</tspan></text>
+    <rect x="154" y="223" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#30d158" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="185" y="251.575">AirPods</tspan><tspan x="185" y="263.075">cameras</tspan></text>
+    <rect x="223" y="223" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="254" y="251.575">Home</tspan><tspan x="254" y="263.075">hub</tspan></text>
+    <rect x="292" y="223" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="323" y="251.575">Blood</tspan><tspan x="323" y="263.075">pressure</tspan></text>
+    <rect x="16" y="292" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="47" y="320.575">Jog in</tspan><tspan x="47" y="332.075">the park</tspan></text>
+    <rect x="85" y="292" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="116" y="320.575">Intel Mac</tspan><tspan x="116" y="332.075">compare</tspan></text>
+    <rect x="154" y="292" width="62" height="62" rx="11" fill="#1c3f2a" stroke="#30d158" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="185" y="320.575">New</tspan><tspan x="185" y="332.075">iPad Pro</tspan></text>
+    <rect x="223" y="292" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="254" y="320.575">Accessi-</tspan><tspan x="254" y="332.075">bility</tspan></text>
+    <rect x="292" y="292" width="62" height="62" rx="11" fill="#16161d" stroke="#2a2a35" stroke-width="1"/>
+    <text font-size="9.5" font-weight="600" fill="#d1d1d6" text-anchor="middle"><tspan x="323" y="320.575">Price</tspan><tspan x="323" y="332.075">unchanged</tspan></text>
+  </g>
+
+  <!-- bingo toast -->
+  <g transform="rotate(-4 900 330)">
+    <rect x="790" y="308" width="222" height="44" rx="22" fill="#ffd60a"/>
+    <text x="901" y="336" font-size="17" font-weight="800" fill="#000" text-anchor="middle">🎉 Alex got BINGO #1!</text>
+  </g>
+
+  <rect x="700" y="60" width="10" height="5" rx="1" fill="#0a84ff" transform="rotate(30 705 62.5)"/>
+  <rect x="770" y="340" width="10" height="5" rx="1" fill="#30d158" transform="rotate(-20 775 342.5)"/>
+  <rect x="1228" y="36" width="10" height="5" rx="1" fill="#ffd60a" transform="rotate(60 1233 38.5)"/>
+  <rect x="1240" y="262" width="10" height="5" rx="1" fill="#ff375f" transform="rotate(15 1245 264.5)"/>
+  <rect x="735" y="205" width="10" height="5" rx="1" fill="#bf5af2" transform="rotate(-45 740 207.5)"/>
+  <rect x="1160" y="384" width="10" height="5" rx="1" fill="#ff9f0a" transform="rotate(80 1165 386.5)"/>
+  <rect x="830" y="22" width="10" height="5" rx="1" fill="#ff375f" transform="rotate(-70 835 24.5)"/>
+  <rect x="1255" y="150" width="10" height="5" rx="1" fill="#0a84ff" transform="rotate(40 1260 152.5)"/>
+  <rect x="990" y="388" width="10" height="5" rx="1" fill="#ffd60a" transform="rotate(-25 995 390.5)"/>
+  </g>
+</svg>

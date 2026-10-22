@@ -1,0 +1,4 @@
+rooms.json
+node_modules/
+.playwright-mcp/
+.DS_Store

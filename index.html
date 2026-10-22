@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Keynote Bingo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍎</text></svg>">
+<style>
+  :root {
+    --bg: #0b0b0f; --panel: #16161d; --line: #2a2a35; --text: #f2f2f7; --muted: #8e8e99;
+    --accent: #0a84ff; --hit: #30d158; --win: #ffd60a; --radius: 14px;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 28px; letter-spacing: -0.02em; margin: 24px 0 4px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 8px; }
+  p.sub { color: var(--muted); margin: 0 0 24px; }
+  [hidden] { display: none !important; }
+  input, textarea, button { font: inherit; color: inherit; }
+  input, textarea {
+    width: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+  }
+  input:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button {
+    border: 0; border-radius: 10px; padding: 12px 16px; background: var(--accent); color: #fff; font-weight: 600;
+    cursor: pointer; transition: transform .1s, opacity .15s;
+  }
+  button:active { transform: scale(.97); }
+  button:disabled { opacity: .4; cursor: default; }
+  button.ghost { background: var(--panel); border: 1px solid var(--line); color: var(--text); font-weight: 500; }
+  .stack { display: grid; gap: 10px; max-width: 420px; }
+  .row { display: flex; gap: 10px; align-items: center; }
+  .or { color: var(--muted); text-align: center; margin: 8px 0; }
+  .err { color: #ff453a; min-height: 1.4em; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+
+  header.bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 8px 0 16px; }
+  .code { font: 700 22px/1 ui-monospace, "SF Mono", monospace; letter-spacing: .15em; }
+
+  .spinner { width: 28px; height: 28px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  textarea { min-height: 50vh; resize: vertical; font-size: 14px; }
+
+  .layout { display: grid; gap: 16px; }
+  @media (min-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; } }
+
+  .card { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .cell {
+    aspect-ratio: 1; padding: 4px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line);
+    color: var(--text); font-weight: 500; font-size: clamp(9px, 2.3vw, 13px); line-height: 1.2;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    overflow: hidden; overflow-wrap: anywhere; hyphens: auto;
+  }
+  .cell.hit { background: color-mix(in srgb, var(--hit) 22%, var(--panel)); border-color: var(--hit); }
+  .cell.free { background: var(--accent); border-color: var(--accent); font-weight: 800; letter-spacing: .05em; }
+  .cell.win { border-color: var(--win); box-shadow: 0 0 0 2px var(--win), 0 0 18px color-mix(in srgb, var(--win) 50%, transparent); animation: glow 1.6s ease-in-out infinite alternate; }
+  @keyframes glow { from { box-shadow: 0 0 0 2px var(--win), 0 0 6px transparent; } }
+
+  .side { display: grid; gap: 16px; }
+  ol.board { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  ol.board li { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+  ol.board .you { font-weight: 700; }
+  .muted { color: var(--muted); }
+  ul.feed { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; max-height: 260px; overflow: auto; font-size: 14px; }
+  ul.feed .bingo { color: var(--win); font-weight: 600; }
+  ul.feed .unmark { color: var(--muted); }
+
+  details summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+  .pool { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pool button { padding: 6px 10px; font-size: 13px; font-weight: 500; }
+  .pool button.hit { background: color-mix(in srgb, var(--hit) 30%, var(--panel)); border-color: var(--hit); }
+  .pool button.mine::after { content: " ★"; color: var(--win); }
+
+  #toast {
+    position: fixed; left: 50%; top: 0; transform: translate(-50%, calc(-100% - 20px)); z-index: 10;
+    background: var(--win); color: #000; font-weight: 700; padding: 12px 20px; border-radius: 999px;
+    transition: transform .4s cubic-bezier(.2, .9, .3, 1.3); max-width: calc(100% - 32px); text-align: center;
+  }
+  #toast.show { transform: translate(-50%, 16px); }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <section id="home">
+    <h1>Keynote Bingo</h1>
+    <p class="sub">Rumor-powered bingo for Apple events.</p>
+    <div class="stack">
+      <input id="name" placeholder="Your nickname" maxlength="20" autocomplete="nickname">
+      <button id="create">Create room</button>
+      <div class="or">or join with a code</div>
+      <div class="row">
+        <input id="joinCode" placeholder="ABC123" maxlength="6" autocapitalize="characters" style="text-transform:uppercase">
+        <button id="join" class="ghost">Join</button>
+      </div>
+      <div class="err" id="homeErr" role="alert"></div>
+    </div>
+  </section>
+
+  <section id="game" hidden>
+    <header class="bar">
+      <div class="row"><span class="muted">Room</span> <span class="code" id="roomCode"></span></div>
+      <button class="ghost" id="share">Copy invite link</button>
+    </header>
+
+    <div id="generating" class="row panel">
+      <div class="spinner"></div>
+      <div>Fetching Apple rumors and asking the LLM for topics… this can take a minute.</div>
+    </div>
+
+    <div id="lobby" class="layout">
+      <div id="hostEdit" class="stack" style="max-width:none">
+        <h2>Topic pool (one per line)</h2>
+        <textarea id="poolText" spellcheck="false"></textarea>
+        <div class="row"><button id="start">Start game</button><span id="poolCount" class="muted"></span></div>
+        <div class="err" id="lobbyErr" role="alert"></div>
+      </div>
+      <div id="guestWait" class="panel">Waiting for the host to start the game…</div>
+      <div class="panel"><h2>Players</h2><ol class="board" id="lobbyPlayers"></ol></div>
+    </div>
+
+    <div id="play" class="layout">
+      <div>
+        <div class="card" id="card"></div>
+        <details class="panel" style="margin-top:16px">
+          <summary>All topics (★ = on your card)</summary>
+          <div class="pool" id="pool"></div>
+        </details>
+      </div>
+      <div class="side">
+        <div class="panel"><h2>Leaderboard</h2><ol class="board" id="board"></ol></div>
+        <div class="panel"><h2>Activity</h2><ul class="feed" id="feed"></ul></div>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids); return e; };
+const store = {
+  get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+};
+
+const pid = store.get('pid') || crypto.randomUUID?.() || Math.random().toString(36).slice(2) + Date.now().toString(36);
+store.set('pid', pid);
+$('#name').value = store.get('name') || '';
+
+let code = new URLSearchParams(location.search).get('room')?.toUpperCase() || '';
+let lastJson = '', pollTimer, lastFeedId = null;
+
+async function post(path, body) {
+  const r = await fetch(path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...body, code, playerId: pid }) });
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error);
+  return j;
+}
+
+function nickname() {
+  const n = $('#name').value.trim();
+  if (!n) { $('#homeErr').textContent = 'Pick a nickname first.'; $('#name').focus(); return null; }
+  store.set('name', n);
+  return n;
+}
+
+function connect() {
+  history.replaceState(null, '', `?room=${code}`);
+  $('#home').hidden = true;
+  $('#game').hidden = false;
+  $('#roomCode').textContent = code;
+  poll();
+}
+
+async function poll() {
+  clearTimeout(pollTimer);
+  try {
+    const r = await fetch(`/api/state?code=${code}&playerId=${encodeURIComponent(pid)}`);
+    if (r.ok) apply(await r.json());
+  } catch {} // offline blip: just try again
+  pollTimer = setTimeout(poll, 1500);
+}
+
+// only re-render when something changed, so the DOM isn't rebuilt every poll
+function apply(s) {
+  const json = JSON.stringify(s);
+  if (json !== lastJson) { lastJson = json; render(s); }
+}
+
+async function join() {
+  const name = nickname();
+  if (!name) return;
+  code = $('#joinCode').value.trim().toUpperCase();
+  try { await post('/api/join', { name }); connect(); }
+  catch (e) { $('#homeErr').textContent = e.message; }
+}
+
+$('#create').onclick = async () => {
+  const name = nickname();
+  if (!name) return;
+  try { code = (await post('/api/create', { name })).code; connect(); }
+  catch (e) { $('#homeErr').textContent = e.message; }
+};
+$('#join').onclick = join;
+$('#joinCode').onkeydown = e => { if (e.key === 'Enter') join(); }; // no `&&`: returning false would cancel the keystroke
+
+$('#share').onclick = async () => {
+  const url = `${location.origin}/?room=${code}`;
+  if (navigator.share) return navigator.share({ title: 'Keynote Bingo', text: `Join my bingo room ${code}`, url }).catch(() => {});
+  await navigator.clipboard?.writeText(url);
+  toast('Invite link copied');
+};
+
+const poolLines = () => {
+  const seen = new Set();
+  return $('#poolText').value.split('\n').map(t => t.trim()).filter(t => t && !seen.has(t.toLowerCase()) && seen.add(t.toLowerCase()));
+};
+$('#poolText').oninput = () => {
+  const n = poolLines().length;
+  $('#start').disabled = n < 24;
+  $('#poolCount').textContent = n < 24 ? `${n} topics, need ${24 - n} more` : `${n} topics`;
+};
+$('#start').onclick = () => post('/api/start', { topics: poolLines() }).then(apply).catch(e => $('#lobbyErr').textContent = e.message);
+
+const toggle = topic => post('/api/toggle', { topic }).then(apply).catch(e => toast(e.message));
+
+function playerList(players, withScore) {
+  const sorted = [...players].sort((a, b) => (a.place || 99) - (b.place || 99) || b.lines - a.lines || b.hits - a.hits);
+  return sorted.map(p => el('li', { className: p.you ? 'you' : '' },
+    el('span', {}, (p.place ? ['🥇', '🥈', '🥉'][p.place - 1] || `#${p.place}` : '') + ' ' + p.name + (p.lines === 12 ? ' 🏆 FULL CARD' : '')),
+    withScore ? el('span', { className: 'muted' }, `${p.lines} line${p.lines === 1 ? '' : 's'} · ${p.hits}/25`) : ''));
+}
+
+function render(s) {
+  $('#generating').hidden = s.status !== 'generating';
+  $('#lobby').hidden = s.status !== 'lobby';
+  $('#play').hidden = s.status !== 'playing';
+
+  if (s.status === 'lobby') {
+    $('#hostEdit').hidden = !s.isHost;
+    $('#guestWait').hidden = s.isHost;
+    if (s.isHost && !$('#poolText').dataset.filled) {
+      $('#poolText').value = s.pool.join('\n');
+      $('#poolText').dataset.filled = 1;
+      $('#poolText').oninput();
+    }
+    $('#lobbyPlayers').replaceChildren(...playerList(s.players, false));
+  }
+
+  if (s.status === 'playing') {
+    const marked = new Set(s.marked);
+    const winCells = new Set(s.me.lines.flat());
+    $('#card').replaceChildren(...s.me.card.map((t, i) => t === 'FREE'
+      ? el('div', { className: 'cell free' + (winCells.has(i) ? ' win' : '') }, 'FREE')
+      : el('button', { className: 'cell' + (marked.has(t) ? ' hit' : '') + (winCells.has(i) ? ' win' : ''), onclick: () => toggle(t), ariaPressed: marked.has(t) }, t)));
+    const mine = new Set(s.me.card);
+    $('#pool').replaceChildren(...s.pool.map(t =>
+      el('button', { className: 'ghost' + (marked.has(t) ? ' hit' : '') + (mine.has(t) ? ' mine' : ''), onclick: () => toggle(t), ariaPressed: marked.has(t) }, t)));
+    $('#board').replaceChildren(...playerList(s.players, true));
+  }
+
+  $('#feed').replaceChildren(...s.feed.map(f => el('li', { className: f.type }, f.text)));
+
+  // celebrate bingos that arrived since we last looked (not on first load)
+  const newest = s.feed[0]?.id ?? 0;
+  if (lastFeedId !== null) {
+    const fresh = s.feed.filter(f => f.id > lastFeedId && f.type === 'bingo');
+    if (fresh.length) { toast(fresh[0].text); confetti(); beep(); }
+  }
+  lastFeedId = newest;
+}
+
+let toastTimer;
+function toast(text) {
+  $('#toast').textContent = text;
+  $('#toast').classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $('#toast').classList.remove('show'), 4000);
+}
+
+// browsers only allow audio after a user gesture, so unlock on first tap
+let ac;
+document.addEventListener('pointerdown', () => { try { ac ??= new AudioContext(); ac.resume(); } catch {} });
+function beep() {
+  if (!ac) return;
+  [523, 659, 784, 1047].forEach((f, i) => {
+    const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + i * 0.12;
+    o.frequency.value = f;
+    o.connect(g).connect(ac.destination);
+    g.gain.setValueAtTime(0.15, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+    o.start(t); o.stop(t + 0.35);
+  });
+}
+
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('#confetti'), x = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const colors = ['#0a84ff', '#30d158', '#ffd60a', '#ff375f', '#bf5af2', '#ff9f0a'];
+  const ps = Array.from({ length: 160 }, () => ({
+    x: Math.random() * c.width, y: -20 - Math.random() * c.height / 2,
+    vx: (Math.random() - 0.5) * 4, vy: 2 + Math.random() * 4,
+    r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.3, s: 6 + Math.random() * 6,
+    col: colors[Math.random() * colors.length | 0],
+  }));
+  const end = performance.now() + 3500;
+  (function frame(t) {
+    x.clearRect(0, 0, c.width, c.height);
+    if (t > end) return;
+    for (const p of ps) {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.r += p.vr;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.r);
+      x.fillStyle = p.col; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+      x.restore();
+    }
+    requestAnimationFrame(frame);
+  })(performance.now());
+}
+
+// returning player with a room link: rejoin silently
+if (code) {
+  $('#joinCode').value = code;
+  if (store.get('name')) join();
+}
+</script>
+</body>
+</html>
