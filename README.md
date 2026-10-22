@@ -38,3 +38,7 @@ Room state is saved to `rooms.json`, so restarting the server mid-keynote loses 
 - `server.js`: HTTP server (clients poll `/api/state`), game logic, topic generation
 - `index.html`: the whole frontend (vanilla JS, no build step)
 - `bingo.test.js`: tests for card dealing and line detection, run with `npm test`
+
+## License
+
+[MIT](LICENSE)
